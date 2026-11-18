@@ -1,2 +1,43 @@
-const upiID = "6302794077@ybl"; 
-const name = "bobby";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pay bobby</title>
+  <style>
+    body { font-family: system-ui, sans-serif; text-align: center; padding: 30px 20px; background: #f9fafb; color: #111; }
+    .card { background: #fff; max-width: 360px; margin: 0 auto; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .amt { font-size: 32px; font-weight: 800; color: #16a34a; margin: 10px 0 20px; }
+    .btn { display: block; width: 100%; box-sizing: border-box; padding: 14px; margin: 10px 0; border-radius: 10px; font-size: 16px; font-weight: 600; text-decoration: none; color: #fff; }
+    .all { background: #2563eb; }
+    .gpay { background: #1f2937; }
+    .phonepe { background: #5f259f; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3 style="margin:0;">Pay <span id="shopName">bobby</span></h3>
+    <div class="amt" id="displayAmt">Enter Amount in App</div>
+
+    <a id="allBtn" class="btn all">Pay with Any UPI App</a>
+    <a id="phonepeBtn" class="btn phonepe">Open PhonePe</a>
+    <a id="gpayBtn" class="btn gpay">Open Google Pay</a>
+  </div>
+
+  <script>
+    const upiID = "6302794077@ybl"; 
+    const name = "bobby";
+
+    const params = new URLSearchParams(window.location.search);
+    const am = params.get("am") || "";
+    document.getElementById("shopName").innerText = name;
+    if (am) document.getElementById("displayAmt").innerText = "₹" + am;
+
+    const query = `pa=${upiID}&pn=${encodeURIComponent(name)}${am ? '&am=' + am : ''}&cu=INR`;
+
+    document.getElementById("allBtn").href = `upi://pay?${query}`;
+    document.getElementById("phonepeBtn").href = `phonepe://pay?${query}`;
+    document.getElementById("gpayBtn").href = `tez://upi/pay?${query}`;
+  </script>
+</body>
+</html>
